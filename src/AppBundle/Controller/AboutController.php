@@ -19,6 +19,6 @@ class AboutController extends Controller
      */
     public function indexAction()
     {
-        return new Response('About Page');
+        return $this->render('about/index.html.twig');
     }
 }
