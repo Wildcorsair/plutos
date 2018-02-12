@@ -83,7 +83,6 @@ class UserController extends Controller
 
         if ($register->isSubmitted() && $register->isValid()) {
             $user = $register->getData();
-            $user->setPassword(password_hash($user->getPassword(), PASSWORD_BCRYPT));
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
@@ -100,7 +99,22 @@ class UserController extends Controller
     /**
      * @Route("/login", name="login")
      */
-    public function loginShowAction(Request $request, RegisterUserMessageGenerator $generator)
+    public function loginShowAction(Request $request)
+    {
+        $login = $this->createForm(LoginType::class);
+        $login->handleRequest($request);
+
+        if ($login->isSubmitted() && $login->isValid()) {
+            $generator = $this->container->get(RegisterUserMessageGenerator::class);
+            $generator->sendMessage('User was logged in.');
+            return $this->redirectToRoute('home');
+        }
+
+        return $this->render('users/login.html.twig', [
+            'login' => $login->createView()
+        ]);
+    }
+/*    public function loginShowAction(Request $request, RegisterUserMessageGenerator $generator)
     {
         $login = $this->createForm(LoginType::class);
         $login->handleRequest($request);
@@ -113,5 +127,5 @@ class UserController extends Controller
         return $this->render('users/login.html.twig', [
             'login' => $login->createView()
         ]);
-    }
+    }*/
 }
