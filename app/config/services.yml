@@ -2,6 +2,7 @@
 # https://symfony.com/doc/current/service_container.html
 parameters:
     #parameter_name: value
+    admin_email: admin@plutos.local
 
 services:
     # default configuration for services in *this* file
@@ -28,6 +29,11 @@ services:
         resource: '../../src/AppBundle/Controller'
         public: true
         tags: ['controller.service_arguments']
+
+    # add more services, or override services that need manual wiring
+    AppBundle\Service\RegisterUserMessageGenerator:
+         arguments:
+             $adminEmail: %admin_email%
 
     # add more services, or override services that need manual wiring
     # AppBundle\Service\ExampleService:

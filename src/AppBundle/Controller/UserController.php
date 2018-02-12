@@ -10,6 +10,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\User;
 use AppBundle\Form\LoginType;
+use AppBundle\Service\RegisterUserMessageGenerator;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -46,7 +47,7 @@ class UserController extends Controller
     /**
      * @Route("/register", name="register")
      */
-    public function registerShowAction(Request $request)
+    public function registerShowAction(Request $request, RegisterUserMessageGenerator $generator)
     {
         $user = new User();
 
@@ -87,6 +88,7 @@ class UserController extends Controller
             $em->persist($user);
             $em->flush();
 
+            $generator->sendMessage('New user was registered!');
             return $this->redirectToRoute('home');
         }
 
@@ -97,11 +99,17 @@ class UserController extends Controller
 
     /**
      * @Route("/login", name="login")
-     * @Method("GET")
      */
-    public function loginShowAction()
+    public function loginShowAction(Request $request, RegisterUserMessageGenerator $generator)
     {
         $login = $this->createForm(LoginType::class);
+        $login->handleRequest($request);
+
+        if ($login->isSubmitted() && $login->isValid()) {
+            $generator->sendMessage('User was logged in.');
+            return $this->redirectToRoute('home');
+        }
+
         return $this->render('users/login.html.twig', [
             'login' => $login->createView()
         ]);
