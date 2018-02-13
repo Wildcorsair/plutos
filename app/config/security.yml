@@ -3,9 +3,21 @@
 security:
 
     # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
+
+    # Example of default basic authentication settings
+    # providers:
+        # in_memory:
+            # memory:
+                # users:
+                    # admin:
+                        # password: $2a$12$LCY0MefVIEc3TYPHV9SNnuzOfyr2p/AXIGoQJEDs4am4JwhNz/jli
+                        # roles: 'ROLE_ADMIN'
+
     providers:
-        in_memory:
-            memory: ~
+        custom_db_provider:
+            entity:
+                class: AppBundle:User
+                property: username
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
@@ -19,7 +31,41 @@ security:
             # activate different ways to authenticate
 
             # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
-            #http_basic: ~
+            # http_basic: ~
+            form_login:
+                login_path: login
+                check_path: login
+
+                # field names for the username and password fields
+                username_parameter: login[_username]
+                password_parameter: login[_password]
+
+                # by default, the login form *must* be a POST, not a GET
+                post_only: true
+                remember_me: false
+
+            logout:
+                path: /logout
+                target: /
+
+            provider: custom_db_provider
 
             # https://symfony.com/doc/current/security/form_login_setup.html
             #form_login: ~
+
+    # Example of default basic authentication settings
+    # access_control:
+        # - { path: ^/dashboard, roles: ROLE_ADMIN }
+
+    # encoders:
+        # Symfony\Component\Security\Core\User\User:
+            # algorithm: bcrypt
+            # cost: 12
+
+    encoders:
+        AppBundle\Entity\User:
+            algorithm: bcrypt
+            cost: 12
+
+    access_control:
+        - { path: ^/dashboard, roles: IS_AUTHENTICATED_FULLY }

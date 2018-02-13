@@ -22,7 +22,7 @@ class PasswordHash
             return false;
         }
 
-        $em = $args->getEntityManager();
+//        $em = $args->getEntityManager();
         $entity->setPassword(password_hash($entity->getPassword(), PASSWORD_BCRYPT));
     }
 }

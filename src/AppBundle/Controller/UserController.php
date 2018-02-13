@@ -15,10 +15,11 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class UserController extends Controller
 {
@@ -47,7 +48,7 @@ class UserController extends Controller
     /**
      * @Route("/register", name="register")
      */
-    public function registerShowAction(Request $request, RegisterUserMessageGenerator $generator)
+    public function registerShowAction(Request $request, UserPasswordEncoderInterface $encoder, RegisterUserMessageGenerator $generator)
     {
         $user = new User();
 
@@ -70,19 +71,30 @@ class UserController extends Controller
                     'class' => 'form-control',
                 ]
             ])
+            ->add('username', TextType::class, [
+                'attr' => [
+                    'id' => 'username',
+                    'class' => 'form-control',
+                ]
+            ])
             ->add('password', PasswordType::class, [
                 'attr' => [
                     'id' => 'password',
                     'class' => 'form-control',
                 ]
             ])
-            ->add('register', SubmitType::class, ['label' => 'Register', 'attr' => ['class' => 'btn btn-success']])
+            ->add('register', SubmitType::class, ['label' => 'Register', 'attr' => ['class' => 'btn btn-success m-t-10']])
             ->getForm();
 
         $register->handleRequest($request);
 
         if ($register->isSubmitted() && $register->isValid()) {
             $user = $register->getData();
+
+            $plainPassword = $register->get('password')->getData();
+            $encodedPassword = $encoder->encodePassword($user, $plainPassword);
+            $user->setPassword($encodedPassword);
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
@@ -99,33 +111,31 @@ class UserController extends Controller
     /**
      * @Route("/login", name="login")
      */
-    public function loginShowAction(Request $request)
+    public function loginAction(Request $request, AuthenticationUtils $authUtils, RegisterUserMessageGenerator $generator)
     {
+        $message = '';
         $login = $this->createForm(LoginType::class);
-        $login->handleRequest($request);
 
-        if ($login->isSubmitted() && $login->isValid()) {
-            $generator = $this->container->get(RegisterUserMessageGenerator::class);
-            $generator->sendMessage('User was logged in.');
-            return $this->redirectToRoute('home');
+        $error = $authUtils->getLastAuthenticationError();
+        if (isset($error) && !empty($error)) {
+            $message = $error->getMessage();
         }
 
+        $lastUsername = $authUtils->getLastUsername();
+
         return $this->render('users/login.html.twig', [
-            'login' => $login->createView()
+            'login' => $login->createView(),
+            'last_username' => $lastUsername,
+            'error' => $message
         ]);
     }
-/*    public function loginShowAction(Request $request, RegisterUserMessageGenerator $generator)
+
+    /**
+     * @Route("/logout", name="logout")
+     */
+    public function logoutAction()
     {
-        $login = $this->createForm(LoginType::class);
-        $login->handleRequest($request);
 
-        if ($login->isSubmitted() && $login->isValid()) {
-            $generator->sendMessage('User was logged in.');
-            return $this->redirectToRoute('home');
-        }
+    }
 
-        return $this->render('users/login.html.twig', [
-            'login' => $login->createView()
-        ]);
-    }*/
 }

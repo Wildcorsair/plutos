@@ -10,6 +10,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 
 /**
@@ -19,7 +20,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity;
  * @ORM\Table(name="users")
  */
-class User
+class User implements UserInterface
 {
     /**
      * @ORM\Column(type="integer")
@@ -53,6 +54,14 @@ class User
      * @var string
      */
     protected $email;
+
+    /**
+     * @ORM\Column(type="string", length=30)
+     *
+     * @Assert\NotBlank()
+     * @var string
+     */
+    protected $username;
 
     /**
      * @ORM\Column(type="string", length=64)
@@ -113,6 +122,22 @@ class User
     /**
      * @return string
      */
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    /**
+     * @param string $username
+     */
+    public function setUserName($username)
+    {
+        $this->username = $username;
+    }
+
+    /**
+     * @return string
+     */
     public function getPassword()
     {
         return $this->password;
@@ -126,4 +151,18 @@ class User
         $this->password = $password;
     }
 
+    public function getRoles()
+    {
+        return ['ROLE_USER', 'ROLE_ADMIN'];
+    }
+
+    public function getSalt()
+    {
+        return null;
+    }
+
+    public function eraseCredentials()
+    {
+        // TODO: Implement eraseCredentials() method.
+    }
 }

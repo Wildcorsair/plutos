@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <header id="dashboard-header" class="col-md-12">
+                <div class="col-md-11 logo">ED</div>
+                <div class="col-md-1"><a href="{{ path('logout') }}">Logout</a></div>
+            </header>
+            <section class="col-md-12">Welcome to Dashboard</section>
+        </div>
+    </div>
+{% endblock %}
