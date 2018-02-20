@@ -17,7 +17,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * Class User
  * @package AppBundle\Entity
  *
- * @ORM\Entity;
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository");
  * @ORM\Table(name="users")
  */
 class User implements UserInterface
@@ -70,6 +70,11 @@ class User implements UserInterface
      * @var string
      */
     protected $password;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Post", mappedBy="author")
+     */
+    protected $posts;
 
     /**
      * @return string

@@ -36,9 +36,7 @@ class Post
     private $content;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="author", type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="posts")
      */
     private $author;
 
