@@ -2,14 +2,18 @@
 
 {% block body %}
     <div class="container">
-        <div class="row">
+        <header class="row">
             <div class="col-md-2 pull-right">
-                <a href="{{ path('login') }}">Sign In</a>
-                <a href="{{ path('register') }}">Sign Up</a>
+                <div class="sign-btns">
+                    <a class="btn btn-primary header-link" href="{{ path('login') }}">Sign In</a>
+                    <a class="btn btn-success header-link" href="{{ path('register') }}">Sign Up</a>
+                </div>
             </div>
-        </div>
+        </header>
         <div class="row">
-            <div class="col-md-12">Welcome to Home</div>
+            <div class="col-md-12">
+                <h2>Welcome to Home</h2>
+            </div>
         </div>
     </div>
 {% endblock %}

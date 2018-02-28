@@ -6,6 +6,29 @@
     margin-top: 10px;
 }
 
+.m-t-20 {
+    margin-top: 20px;
+}
+
+header {
+    height: 50px;
+    background: #e6e6e6;
+}
+
+.sign-btns {
+    margin-top: 7px;
+    height: 30px;
+}
+
+.header-link {
+    color: #fff;
+}
+
+.header-link:hover {
+    color: #f8f8f8;
+    text-decoration: none;
+}
+
 #dashboard-header {
     height: 70px;
     padding: 15px;

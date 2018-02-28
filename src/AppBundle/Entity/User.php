@@ -72,6 +72,14 @@ class User implements UserInterface
     protected $password;
 
     /**
+     * @ORM\Column(type="string", length=64)
+     *
+     * @Assert\NotBlank()
+     * @var string
+     */
+    protected $password_confirm;
+
+    /**
      * @ORM\OneToMany(targetEntity="Post", mappedBy="author")
      */
     protected $posts;
@@ -154,6 +162,22 @@ class User implements UserInterface
     public function setPassword($password)
     {
         $this->password = $password;
+    }
+
+    /**
+     * @param string $passwordConfirm
+     */
+    public function setPasswordConfirm($passwordConfirm)
+    {
+        $this->password_confirm = $passwordConfirm;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPasswordConfirm()
+    {
+        return $this->password_confirm;
     }
 
     public function getRoles()

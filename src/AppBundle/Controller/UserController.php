@@ -11,6 +11,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\User;
 use AppBundle\Form\LoginType;
 use AppBundle\Service\RegisterUserMessageGenerator;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -83,7 +84,12 @@ class UserController extends Controller
                     'class' => 'form-control',
                 ]
             ])
-            ->add('register', SubmitType::class, ['label' => 'Register', 'attr' => ['class' => 'btn btn-success m-t-10']])
+            ->add('password_confirm', PasswordType::class, [
+                'attr' => [
+                    'id' => 'password-confirm',
+                    'class' => 'form-control',
+                ]
+            ])
             ->getForm();
 
         $register->handleRequest($request);
@@ -136,6 +142,10 @@ class UserController extends Controller
     public function logoutAction()
     {
 
+    }
+
+    public function isPasswordConfirm()
+    {
     }
 
 }

@@ -3,9 +3,16 @@
 {% block body %}
     <div class="container">
         <div class="row">
-            <div class="col-md-4 col-md-offset-3">
+            <div class="col-md-4 col-md-offset-4 m-t-20">
                 {{ form_start(register) }}
-                {{ form_widget(register) }}
+                    {{ form_row(register.first_name) }}
+                    {{ form_row(register.last_name) }}
+                    {{ form_row(register.email) }}
+                    {{ form_row(register.username) }}
+                    {{ form_row(register.password) }}
+                    {{ form_row(register.password_confirm) }}
+                    <button type="submit" class="btn btn-success m-t-10">Register</button>
+                    <a href="{{ path('home') }}" class="pull-right m-t-20">Back</a>
                 {{ form_end(register) }}
             </div>
         </div>
