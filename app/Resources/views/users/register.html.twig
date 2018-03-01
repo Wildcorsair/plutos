@@ -3,8 +3,16 @@
 {% block body %}
     <div class="container">
         <div class="row">
-            <div class="col-md-4 col-md-offset-4 m-t-20">
+{#            <div class="col-md-4 col-md-offset-4 m-t-20">
+                <ul>
+                    {% for error in errors %}
+                        <li>{{ error.message }}</li>
+                    {% endfor %}
+                </ul>
+            </div>#}
+            <div class="col-md-4 col-md-offset-4 m-t-10">
                 {{ form_start(register) }}
+                    {{ form_errors(register) }}
                     {{ form_row(register.first_name) }}
                     {{ form_row(register.last_name) }}
                     {{ form_row(register.email) }}
