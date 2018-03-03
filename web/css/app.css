@@ -18,6 +18,7 @@ header {
 .sign-btns {
     margin-top: 7px;
     height: 30px;
+    text-align: right;
 }
 
 .header-link {
@@ -40,4 +41,8 @@ header {
 #dashboard-header .logo {
     color: #fff;
     font-size: 28px;
+}
+
+#register-user ul>li {
+    color: red;
 }

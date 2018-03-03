@@ -11,7 +11,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
-
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Class User
@@ -19,6 +19,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  *
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository");
  * @ORM\Table(name="users")
+ * @UniqueEntity(fields={"username"}, message="It looks like your already have an account!")
  */
 class User implements UserInterface
 {
