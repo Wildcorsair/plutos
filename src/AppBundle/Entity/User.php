@@ -72,7 +72,7 @@ class User implements UserInterface
     protected $password;
 
     /**
-     * @Assert\NotBlank()
+     * @Assert\EqualTo(propertyPath="password", message="This value should be equal to 'Password'")
      * @var string
      */
     protected $password_confirm;

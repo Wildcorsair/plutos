@@ -50,7 +50,7 @@ class UserController extends Controller
     /**
      * @Route("/register", name="register")
      */
-    public function registerShowAction(Request $request, UserPasswordEncoderInterface $encoder, RegisterUserMessageGenerator $generator, PasswordCompareService $compareService)
+    public function registerShowAction(Request $request, UserPasswordEncoderInterface $encoder, RegisterUserMessageGenerator $generator)
     {
         $user = new User();
 
@@ -99,16 +99,6 @@ class UserController extends Controller
             $user = $register->getData();
 
             $plainPassword = $register->get('password')->getData();
-            $passwordConfirm = $register->get('password_confirm')->getData();
-            $compareResult = $compareService->isPasswordConfirm($plainPassword, $passwordConfirm);
-
-            if (!$compareResult) {
-                $errors = ['Password not confirmed!'];
-                return $this->render('users/register.html.twig', [
-                    'register' => $register->createView(),
-                    'errors' => $errors
-                ]);
-            }
 
             $encodedPassword = $encoder->encodePassword($user, $plainPassword);
             $user->setPassword($encodedPassword);
