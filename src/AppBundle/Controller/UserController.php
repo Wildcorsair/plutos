@@ -8,7 +8,6 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Service\PasswordCompareService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
