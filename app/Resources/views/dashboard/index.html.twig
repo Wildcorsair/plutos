@@ -12,18 +12,11 @@
             <section class="col-md-12">
                 <h2>Welcome to Dashboard</h2>
                 <div>
-                    <table class="table table-bordered">
-                        <thead>
-                            <th>ID</th>
-                            <th>User</th>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>John Travolta</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <ul id="directory-list">
+                        {% for item in list %}
+                            <li>{{ item }}</li>
+                        {% endfor %}
+                    </ul>
                 </div>
             </section>
         </div>

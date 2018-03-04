@@ -46,3 +46,11 @@ header {
 #register-user ul>li {
     color: red;
 }
+
+#directory-list {
+    font-size: 18px;
+}
+
+#directory-list li {
+    list-style: none;
+}
