@@ -15,9 +15,9 @@
                     <ul id="directory-list">
                         {% for item in list %}
                             {% if item.type == 'dir' %}
-                                <li><a href="{{ path('dashboard') }}">{{ item.name }}</a></li>
+                                <li><span class="js-item directory" data-path="{{ item.path }}" data-directory="{{ item.name }}">{{ item.name }}</span></li>
                             {% else %}
-                                <li>{{ item.name }}</li>
+                                <li><span class="file">{{ item.name }}</span></li>
                             {% endif %}
                         {% endfor %}
                     </ul>

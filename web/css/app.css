@@ -54,3 +54,15 @@ header {
 #directory-list li {
     list-style: none;
 }
+
+#directory-list .directory {
+    cursor: pointer;
+    color: #398439;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+#directory-list .file {
+    cursor: pointer;
+    color: #286090;
+}
