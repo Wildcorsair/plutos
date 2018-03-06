@@ -14,7 +14,11 @@
                 <div>
                     <ul id="directory-list">
                         {% for item in list %}
-                            <li>{{ item }}</li>
+                            {% if item.type == 'dir' %}
+                                <li><a href="{{ path('dashboard') }}">{{ item.name }}</a></li>
+                            {% else %}
+                                <li>{{ item.name }}</li>
+                            {% endif %}
                         {% endfor %}
                     </ul>
                 </div>

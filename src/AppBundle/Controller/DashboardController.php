@@ -30,6 +30,24 @@ class DashboardController extends Controller
         // Otherwise
 //        $users = $this->getDoctrine()->getRepository('AppBundle\Entity\User')->allUsers();
         $list = $fileSystem->getFoldersTree();
+        ksort($list);
+        asort($list);
+        return $this->render('dashboard/index.html.twig', [
+            'list' => $list
+        ]);
+    }
+
+    /**
+     * @Route("/dashboard/{slug}", name="dashboard_path")
+     */
+    public function showAction($path, FoldersTreeService $fileSystem)
+    {
+        if (empty($path)) {
+            $path = '/';
+        }
+        $list = $fileSystem->getFoldersTree($path);
+        ksort($list);
+        asort($list);
         return $this->render('dashboard/index.html.twig', [
             'list' => $list
         ]);

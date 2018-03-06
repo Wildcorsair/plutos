@@ -13,7 +13,7 @@ use FilesystemIterator;
 class FoldersTreeService
 {
 
-    public function getFoldersTree()
+    public function getFoldersTree($path = '/')
     {
         $fileList = [];
 /*        if ($handle = opendir('/')) {
@@ -25,24 +25,13 @@ class FoldersTreeService
             closedir($handle);
         }*/
 
-        $iterator = new FilesystemIterator("/home/texas");
+        $iterator = new FilesystemIterator($path);
         foreach($iterator as $entry) {
-/*            if ($entry->getType() == 'dir') {
-                $fileList[] = [
-                    'type' => $entry->getType(),
-                    'name' => strtoupper($entry->getFilename())
-                ];
-            } else {
-                $fileList[] = [
-                    'type' => $entry->getType(),
-                    'name' => strtoupper($entry->getFilename())
-                ];
-            }*/
-            if ($entry->getType() == 'dir') {
-                $fileList[] = strtoupper($entry->getFilename());
-            } else {
-                $fileList[] = $entry->getFilename();
-            }
+            $fileList[] = [
+                'type' => $entry->getType(),
+                'path' => $entry->getPath(),
+                'name' => $entry->getType() == 'dir' ? strtoupper($entry->getFilename()) : $entry->getFilename()
+            ];
 	    }
         return $fileList;
     }
