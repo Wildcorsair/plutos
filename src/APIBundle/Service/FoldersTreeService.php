@@ -17,9 +17,6 @@ class FoldersTreeService
     public function getFoldersTree($path = '/')
     {
         $fileList = [];
-        if ($path != '/' && !empty($path)) {
-            $path = '/' . $path;
-        }
         try {
             $iterator = new FilesystemIterator($path);
 
