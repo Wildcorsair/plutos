@@ -28,6 +28,24 @@
                 that.loadFilesList(path, dir);
             });
         });
+
+        var backItem = document.getElementById('js-back-item');
+        var backPath, newBackPath, dir, pos;
+        if (backItem !== undefined && backItem != null) {
+            backItem.addEventListener('click', function() {
+                backPath  = this.getAttribute('data-path');
+                dir  = this.getAttribute('data-directory');
+                that.loadFilesList(backPath, dir);
+                pos = backPath.lastIndexOf('/');
+                newBackPath = backPath.slice(0, pos);
+
+                if (newBackPath == '') {
+                    window.path = '/';
+                } else {
+                    window.path = newBackPath;
+                }
+            });
+        }
     };
 
     /**
@@ -63,7 +81,7 @@
             listContainer = document.getElementById('directory-list'),
             listItems = '';
         if (window.path !== undefined) {
-            listItems += '<li class="js-item directory" data-path="' + window.path + '" data-directory="..">..</li>';
+            listItems += '<li id="js-back-item" class="directory" data-path="' + window.path + '" data-directory="..">..</li>';
         }
         listContainer.innerHTML = '';
         if (list.length > 0) {
